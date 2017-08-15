@@ -69,3 +69,22 @@ pacaur --noconfirm --noedit -S \
   redshift \
   firefox \
   lm_sensors
+  
+  pacaur -Syu --noconfirm --noedit adobe-source-code-pro-fonts \
+  adobe-source-sans-pro-fonts \
+  adobe-source-serif-pro-fonts \
+  otf-texgyre \
+  ttf-chromeos-fonts \
+  ttf-clear-sans \
+  ttf-liberation \
+  ttf-linux-libertine \
+  ttf-noto \
+  ttf-roboto \
+  font-bh-ttf \
+  ttf-hack \
+  ttf-iosevka \
+  ttf-font-awesome \
+  adobe-source-han-sans-fonts \
+  ttf-mac-fonts \
+  ttf-symbola \
+  ttf-google-fonts-git
