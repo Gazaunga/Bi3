@@ -1,0 +1,141 @@
+#!/bin/bash
+
+#source utils
+#export TERM=xterm-256color
+#export EDITOR=nvim
+#adobe-source-code-pro
+
+def Home {
+cd ~
+}
+
+mkd {
+mkdir -p $1 && cd $1 && ls -lh
+}
+
+printf "=======[WELCOME]========"
+git config --global user.name "Gazaunga"
+git config --global user.email "jeremy.ottley@gmail.com"
+git config --global core.autocrlf input
+git config --global core.safecrlf true
+curl -sSL https://rvm.io/mpapis.asc | gpg2 --import
+curl -L https://get.rvm.io | bash -s stable --ruby
+Home
+mkd BUILD
+git clone git://github.com/Gazaunga/rush.git
+cd rush
+gem build *.gemspec
+sudo gem install *.gem
+Home
+wget https://raw.githubusercontent.com/Gazaunga/i3/master/.zshrc
+mkdir zsh
+cd zsh
+wget https://raw.githubusercontent.com/Gazaunga/i3/master/zsh/minimal.zsh
+Home
+git clone https://github.com/Gazaunga/.tmux.git
+ln -s -f .tmux/.tmux.conf
+cp .tmux/.tmux.conf.local .
+Home
+###################
+
+terminator/termite/tilix
+opens into rush
+alias nano="ruco"
+
+dvtm/tmux equivalent in ruby
+-tmuxinator
+
+# Terminator Config
+touch ~/.config/terminator/config
+tee ~/.config/terminator/config <<-EOF
+[global_config]
+  title_transmit_bg_color = "#d30102"
+  focus = system
+[keybindings]
+[layouts]
+  [[default]]
+    [[[child1]]]
+      parent = window0
+      type = Terminal
+      profile = default
+    [[[window0]]]
+      parent = ""
+      type = Window
+[plugins]
+[profiles]
+  [[default]]
+    use_system_font = false
+    font = Hack 12
+    scrollback_lines = 2000
+    palette = "#073642:#dc322f:#859900:#b58900:#268bd2:#d33682:#2aa198:#eee8d5:#586e75:#cb4b16:#586e75:#657b83:#839496:#6c71c4:#93a1a1:#fdf6e3"
+    foreground_color = "#eee8d5"
+    background_color = "#002b36"
+    cursor_color = "#eee8d5"
+EOF
+
+###
+
+###############################################################################
+#                                  VARIABLES                                  #
+###############################################################################
+
+set $mod Mod1
+set $sup Mod4              # super / "windows key"
+font pango:monospace 8     # window titles, status bar
+new_window normal 0        # no borders
+set $mv 20px               # amount to resize windows (also used for how far to
+set $mvppt 2ppt            #   move floating windows with mod+shift+hjkl)
+floating_modifier $mod     # mouse+$mod for manipulating floating windows
+focus_follows_mouse no     # this is annoying
+force_focus_wrapping yes   # always wrap focus instead of switching containers
+
+###############################################################################
+#                                 KEY BINDINGS                                #
+###############################################################################
+
+
+###############################################################################
+#                                  STATUS BAR                                 #
+###############################################################################
+
+bar {
+    status_command i3blocks -c ~/.i3/i3blocks.conf
+    colors {
+        background #181818
+        statusline #d8d8d8
+        separator  #585858
+        focused_workspace  #383838 #181818 #d8d8d8
+        active_workspace   #383838 #181818 #d8d8d8
+        inactive_workspace #585858 #383838 #b8b8b8
+        urgent_workspace   #dc9656 #ab4642 #d8d8d8
+        binding_mode       #dc9656 #ab4642 #d8d8d8
+    }
+}
+
+###############################################################################
+#                                    COLORS                                   #
+###############################################################################
+
+# note that child_border is what shows up as the 1pixel border when the title
+# bar is toggled off with mod+shift+t
+
+# class                 border  backgr. text    indicator child_border
+client.focused          #383838 #181818 #d8d8d8 #000000   #b8b8b8
+client.focused_inactive #585858 #383838 #b8b8b8 #000000   #585858
+client.unfocused        #585858 #383838 #b8b8b8 #000000   #585858
+client.urgent           #dc9656 #ab4642 #d8d8d8 #000000   #000000
+client.placeholder      #585858 #383838 #b8b8b8 #000000   #000000
+client.background       #181818
+
+
+#unorganized#
+
+bindsym $mod+i exec i3lock -c 181818        # lock screen
+bindsym $mod+n exec urxvt -name FLOAT -e n  # notes
+
+# utils
+# useful for_window mappings, so that I can activate i3 functionality
+for_window [instance="FLOAT"] floating enable
+for_window [title="FLOAT"] floating enable
+for_window [instance="NOBORDER"] border none
+for_window [title="NOBORDER"] border none
