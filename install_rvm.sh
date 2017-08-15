@@ -1,7 +1,9 @@
 function install_rvm {
   echo "===> Installing RVM >>"
-  curl -sSL https://get.rvm.io | bash
-
+  #curl -sSL https://get.rvm.io | bash
+  curl -sSL https://rvm.io/mpapis.asc | gpg2 --import
+  curl -L https://get.rvm.io | bash -s stable --ruby
+  
   #Reload shell
   . ~/.rvm/scripts/rvm
 
