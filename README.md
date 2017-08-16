@@ -11,6 +11,6 @@
 
 ░░░░░░░░░░
 ░ author ░ J.M. Ottley
-░ repo   ░ https://github.com/Gazaunga/F26
+░ repo   ░ https://github.com/Gazaunga/Bi3
 ░░░░░░░░░░
 ```
