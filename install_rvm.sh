@@ -43,3 +43,5 @@ function install_rvm {
   #Reload shell
   source $profile_location
 }    
+
+install_rvm
