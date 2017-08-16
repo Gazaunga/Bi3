@@ -1,0 +1,4 @@
+/* Padding on termite */
+VteTerminal, vte-terminal {
+    padding: 15px;
+}
