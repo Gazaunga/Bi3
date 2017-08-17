@@ -45,7 +45,6 @@ pacaur --noconfirm --noedit -S \
   dunst \
   compton-git \
   ttf-font-awesome \
-  ttf-hack \
   powerline-fonts-git \
   thunar \
   thunar-archive-plugin \
@@ -81,10 +80,7 @@ pacaur --noconfirm --noedit -S \
   ttf-noto \
   ttf-roboto \
   font-bh-ttf \
-  ttf-hack \
   ttf-iosevka \
   ttf-font-awesome \
-  adobe-source-han-sans-fonts \
   ttf-mac-fonts \
-  ttf-symbola \
-  ttf-google-fonts-git
+  ttf-symbola
