@@ -5,7 +5,7 @@
 set -e
 
 echo "Installing prerequisites for pacaur..."
-sudo pacman -S base-devel fakeroot jshon expac
+sudo pacman -Syu base-devel fakeroot jshon expac
 
 echo "Installing pacaur..."
 mkdir /tmp/tmp-pacaur
