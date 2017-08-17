@@ -1,0 +1,6 @@
+#!/bin/sh
+
+if test "$(which pacman)"; then
+  pacaur -Syu --noconfirm --noedit rxvt-unicode urxvt-perl urxvt-resize-font-git
+fi
+
