@@ -1,80 +1,3 @@
-#!/bin/bash
-
-#source utils
-#export TERM=xterm-256color
-#export EDITOR=nvim
-#adobe-source-code-pro
-
-def Home {
-cd ~
-}
-
-mkd {
-mkdir -p $1 && cd $1 && ls -lh
-}
-
-printf "=======[WELCOME]========"
-git config --global user.name "Gazaunga"
-git config --global user.email "jeremy.ottley@gmail.com"
-git config --global core.autocrlf input
-git config --global core.safecrlf true
-curl -sSL https://rvm.io/mpapis.asc | gpg2 --import
-curl -L https://get.rvm.io | bash -s stable --ruby
-Home
-mkd BUILD
-git clone git://github.com/Gazaunga/rush.git
-cd rush
-gem build *.gemspec
-sudo gem install *.gem
-Home
-wget https://raw.githubusercontent.com/Gazaunga/i3/master/.zshrc
-mkdir zsh
-cd zsh
-wget https://raw.githubusercontent.com/Gazaunga/i3/master/zsh/minimal.zsh
-Home
-git clone https://github.com/Gazaunga/.tmux.git
-ln -s -f .tmux/.tmux.conf
-cp .tmux/.tmux.conf.local .
-Home
-###################
-
-terminator/termite/tilix
-opens into rush
-alias nano="ruco"
-
-dvtm/tmux equivalent in ruby
--tmuxinator
-
-# Terminator Config
-touch ~/.config/terminator/config
-tee ~/.config/terminator/config <<-EOF
-[global_config]
-  title_transmit_bg_color = "#d30102"
-  focus = system
-[keybindings]
-[layouts]
-  [[default]]
-    [[[child1]]]
-      parent = window0
-      type = Terminal
-      profile = default
-    [[[window0]]]
-      parent = ""
-      type = Window
-[plugins]
-[profiles]
-  [[default]]
-    use_system_font = false
-    font = Hack 12
-    scrollback_lines = 2000
-    palette = "#073642:#dc322f:#859900:#b58900:#268bd2:#d33682:#2aa198:#eee8d5:#586e75:#cb4b16:#586e75:#657b83:#839496:#6c71c4:#93a1a1:#fdf6e3"
-    foreground_color = "#eee8d5"
-    background_color = "#002b36"
-    cursor_color = "#eee8d5"
-EOF
-
-###
-
 ###############################################################################
 #                                  VARIABLES                                  #
 ###############################################################################
@@ -139,3 +62,22 @@ for_window [instance="FLOAT"] floating enable
 for_window [title="FLOAT"] floating enable
 for_window [instance="NOBORDER"] border none
 for_window [title="NOBORDER"] border none
+
+###
+
+bindsym $win+Return exec
+bindsym $mod+q kill
+
+bindsym $mod+d exec --no-startup-id rofi -show run
+bindsym $mod+Shift+d exec --no-startup-id rofi -hide-scrollbar -show window
+bindsym $mod+h focus left
+bindsym $mod+l focus right
+bindsym $mod+k focus up
+bindsym $mod+j focus down
+
+bindsym $mod+Shift+h move left 35px
+bindsym $mod+Shift+j move down 35px
+bindsym $mod+Shift+k move up 35px
+bindsym $mod+Shift+l move right 35px
+exec_always --no-startup-id compton -cCGfF -o 0.38 -O 200 -I 200 -t 0 -l 0 -r 3 -D2 -m 0.88
+
