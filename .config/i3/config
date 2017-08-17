@@ -3,81 +3,249 @@
 ###############################################################################
 
 set $mod Mod1
-set $sup Mod4              # super / "windows key"
-font pango:monospace 8     # window titles, status bar
-new_window normal 0        # no borders
+set $win Mod4
+set $editor emacs
+set $term termite -e screen
+#set $term tilix -e screen
+new_window normal 0
 set $mv 20px               # amount to resize windows (also used for how far to
 set $mvppt 2ppt            #   move floating windows with mod+shift+hjkl)
-floating_modifier $mod     # mouse+$mod for manipulating floating windows
-focus_follows_mouse no     # this is annoying
-force_focus_wrapping yes   # always wrap focus instead of switching containers
+floating_modifier $mod
+focus_follows_mouse no
+force_focus_wrapping yes
+font pango:Hack, FontAwesome 12
 
 ###############################################################################
 #                                 KEY BINDINGS                                #
 ###############################################################################
 
+#bindsym $mod+Return exec --no-startup-id exec $HOME/.scripts/fullscreen_wrap.sh $editor
+#bindsym $mod+Shift+Return exec --no-startup-id exec $HOME/.scripts/fullscreen_wrap.sh $editor --name __scratchpad
+bindsym $mod+Return exec $term
+#bindsym $win+Return exec $termite
 
-###############################################################################
-#                                  STATUS BAR                                 #
-###############################################################################
-
-bar {
-    status_command i3blocks -c ~/.i3/i3blocks.conf
-    colors {
-        background #181818
-        statusline #d8d8d8
-        separator  #585858
-        focused_workspace  #383838 #181818 #d8d8d8
-        active_workspace   #383838 #181818 #d8d8d8
-        inactive_workspace #585858 #383838 #b8b8b8
-        urgent_workspace   #dc9656 #ab4642 #d8d8d8
-        binding_mode       #dc9656 #ab4642 #d8d8d8
-    }
-}
-
-###############################################################################
-#                                    COLORS                                   #
-###############################################################################
-
-# note that child_border is what shows up as the 1pixel border when the title
-# bar is toggled off with mod+shift+t
-
-# class                 border  backgr. text    indicator child_border
-client.focused          #383838 #181818 #d8d8d8 #000000   #b8b8b8
-client.focused_inactive #585858 #383838 #b8b8b8 #000000   #585858
-client.unfocused        #585858 #383838 #b8b8b8 #000000   #585858
-client.urgent           #dc9656 #ab4642 #d8d8d8 #000000   #000000
-client.placeholder      #585858 #383838 #b8b8b8 #000000   #000000
-client.background       #181818
-
-
-#unorganized#
-
-bindsym $mod+i exec i3lock -c 181818        # lock screen
-bindsym $mod+n exec urxvt -name FLOAT -e n  # notes
-
-# utils
-# useful for_window mappings, so that I can activate i3 functionality
-for_window [instance="FLOAT"] floating enable
-for_window [title="FLOAT"] floating enable
-for_window [instance="NOBORDER"] border none
-for_window [title="NOBORDER"] border none
-
-###
-
-bindsym $win+Return exec
 bindsym $mod+q kill
 
 bindsym $mod+d exec --no-startup-id rofi -show run
 bindsym $mod+Shift+d exec --no-startup-id rofi -hide-scrollbar -show window
+
 bindsym $mod+h focus left
 bindsym $mod+l focus right
 bindsym $mod+k focus up
 bindsym $mod+j focus down
 
-bindsym $mod+Shift+h move left 35px
-bindsym $mod+Shift+j move down 35px
-bindsym $mod+Shift+k move up 35px
-bindsym $mod+Shift+l move right 35px
+bindsym $win+Shift+h move left 35px
+bindsym $win+Shift+j move down 35px
+bindsym $win+Shift+k move up 35px
+bindsym $win+Shift+l move right 35px
+
+bindsym $win+h split h
+bindsym $win+v split v
+
+bindsym $mod+f fullscreen
+bindsym $win+g fullscreen global
+
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+
+bindsym $mod+a focus parent
+bindsym $mod+Shift+a focus child
+
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+bindsym $mod+Tab workspace back_and_forth
+
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+bindsym $win+Shift+e exec oblogout
+
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+
+set $mode_resize resize
+bindsym $mod+r mode "$mode_resize"
+mode "$mode_resize" {
+    bindsym Left resize shrink width 10 px or 1 ppt
+    bindsym Down resize grow height 10 px or 1 ppt
+    bindsym Up resize shrink height 10 px or 1 ppt
+    bindsym Right resize grow width 10 px or 1 ppt
+
+    bindsym Shift+Left resize shrink width 20 px or 5 ppt
+    bindsym Shift+Down resize grow height 20 px or 5 ppt
+    bindsym Shift+Up resize shrink height 20 px or 5 ppt
+    bindsym Shift+Right resize grow width 20 px or 5 ppt
+
+    bindsym s mode "default", exec --no-startup-id $HOME/scripts/slopsize.sh
+
+    bindsym 1 mode "default", resize set 1000 600
+    bindsym 2 mode "default", resize set 1500 600
+    bindsym 3 mode "default", resize set 1200 1000
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+
+set $mode_gaps gaps
+set $mode_gaps_outer outer gaps
+set $mode_gaps_inner inner gaps
+bindsym $mod+Shift+g mode "$mode_gaps"
+mode "$mode_gaps" {
+    bindsym o      mode "$mode_gaps_outer"
+    bindsym i      mode "$mode_gaps_inner"
+
+    bindsym 0      mode "default", exec --no-startup-id i3-msg "gaps inner current set 0" && i3-msg "gaps outer current set 0"
+    bindsym d      mode "default", exec --no-startup-id i3-msg "gaps inner current set $default_gaps_inner" && i3-msg "gaps outer current set $default_gaps_outer"
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+mode "$mode_gaps_inner" {
+    bindsym plus  gaps inner current plus 5
+    bindsym minus gaps inner current minus 5
+    bindsym 0     mode "default", gaps inner current set 0
+    bindsym d     mode "default", gaps inner current set $default_gaps_inner
+
+    bindsym Shift+plus  gaps inner all plus 5
+    bindsym Shift+minus gaps inner all minus 5
+    bindsym Shift+0     mode "default", gaps inner all set 0
+    bindsym Shift+d     mode "default", gaps inner all set $default_gaps_inner
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+mode "$mode_gaps_outer" {
+    bindsym plus  gaps outer current plus 5
+    bindsym minus gaps outer current minus 5
+    bindsym 0     mode "default", gaps outer current set 0
+    bindsym d     mode "default", gaps outer current set $default_gaps_outer
+
+    bindsym Shift+plus  gaps outer all plus 5
+    bindsym Shift+minus gaps outer all minus 5
+    bindsym Shift+0     mode "default", gaps outer all set 0
+    bindsym Shift+d     mode "default", gaps outer all set $default_gaps_outer
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+i exec i3lock -c 181818        # lock screen
+bindsym $mod+n exec urxvt -name FLOAT -e n  # notes
+
+set $Locker i3lock && sleep 1
+
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id $Locker, mode "default"
+    bindsym e exec --no-startup-id i3-msg exit, mode "default"
+    bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
+    bindsym h exec --no-startup-id $Locker && systemctl hibernate, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"  
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+Pause mode "$mode_system"
+
+# lock screen
+#bindsym $win+Escape exec --no-startup-id ~/bin/lockscreen
+
+# task manager
+bindsym $win+BackSpace exec --no-startup-id xfce4-taskmanager
+
+# Take screenshot. `Shift` for screenshot of window / rectange region.
+bindsym --release Print exec scrot ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png
+bindsym --release Shift+Print exec scrot -s ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png
+
+###############################################################################
+#                                 OTHER                                #
+###############################################################################
+
+
+bar {
+#    verbose yes
+    status_command i3blocks #-c /home/gazbit/.config/i3/i3blocks.conf
+#   status_command i3status -c /home/gazbit/.config/i3status/config
+    i3bar_command i3bar -t
+    position top
+    font pango:Hack, FontAwesome 11
+#   strip_workspace_numbers yes
+    separator_symbol "■"
+#   bindsym button4 nop
+#   bindsym button5 nop
+#   tray_output eDP1
+#   tray_output LVDS-0
+    tray_padding 0
+#   height $height
+    colors {
+        statusline         $white
+        background         $transparent
+        separator          $transparent
+
+#                          BORDER       BACKGROUND   TEXT
+        focused_workspace  $transparent $transparent $darkwhite
+        inactive_workspace $transparent $transparent $white
+        active_workspace   $transparent $transparent $white
+        urgent_workspace   $darkred     $darkred     $transparent
+        binding_mode       $darkred     $darkred     $transparent
+    }
+}
+
+# AUTOSTART
+
+exec_always --no-startup-id feh --bg-fill $HOME/Pictures/.wallpapers/wallpaper.jpg
 exec_always --no-startup-id compton -cCGfF -o 0.38 -O 200 -I 200 -t 0 -l 0 -r 3 -D2 -m 0.88
+exec --no-startup-id xfce4-panel --disable-wm-check
+exec --no-startup-id sh ~/.local/bin/.scripts/Startup.sh
+
+# Workspaces
+#make terminals only spawn $ws2
+#make browsers only spawn $ws1 and $ws2
+
+
+# Make floating windows that you'd think would be foating windows,
+# floating windows
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="bubble"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [window_role="Preferences"] floating enable
+for_window [window_role="dialog"] floating enable
+for_window [window_role="menu"] floating enable
+# Steam Friends list
+for_window [class="Steam" title="Friends"] floating enable, resize set 265 500
+# KeePassXC
+for_window [class="keepassxc"] floating enable, resize set 880 647
+for_window [class="^mpv"] floating enable
+for_window [class="^Pavucontrol"] floating enable
+for_window [instance="FLOAT"] floating enable
+for_window [title="FLOAT"] floating enable
+for_window [instance="NOBORDER"] border none
+for_window [title="NOBORDER"] border none
+new_window pixel
+hide_edge_borders both
+
+assign [class="Opera"] $workspace2
+assign [class="qutebrowser"] $workspace1
 
