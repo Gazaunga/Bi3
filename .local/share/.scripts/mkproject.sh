@@ -7,7 +7,7 @@ PROJECT_BASE=$1
 ## FUNCTIONS ##
 
 def mkd() {
-mkdir && cd && ls -a
+mkdir $1 && cd $1 && ls -a
 }
 
 def mk_web() {
