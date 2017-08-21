@@ -14,6 +14,10 @@ floating_modifier $mod
 focus_follows_mouse no
 force_focus_wrapping yes
 font pango:Hack, FontAwesome 12
+set $default_gaps_inner 0
+set $default_gaps_outer 0 
+gaps inner $default_gaps_inner
+gaps outer $default_gaps_outer
 
 ###############################################################################
 #                                 KEY BINDINGS                                #
@@ -173,7 +177,7 @@ bindsym $mod+Pause mode "$mode_system"
 #bindsym $win+Escape exec --no-startup-id ~/bin/lockscreen
 
 # task manager
-bindsym $win+BackSpace exec --no-startup-id xfce4-taskmanager
+bindsym $win+BackSpace exec --no-startup-id sleep 3 && xfce4-power-manager
 
 # Take screenshot. `Shift` for screenshot of window / rectange region.
 bindsym --release Print exec scrot ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png
@@ -215,7 +219,7 @@ bar {
 
 # AUTOSTART
 
-exec_always --no-startup-id feh --bg-fill $HOME/Pictures/.wallpapers/wallpaper.jpg
+exec_always --no-startup-id feh --randomize --bg-fill ~/.wallpaper/*
 exec_always --no-startup-id compton -cCGfF -o 0.38 -O 200 -I 200 -t 0 -l 0 -r 3 -D2 -m 0.88
 exec --no-startup-id xfce4-panel --disable-wm-check
 exec --no-startup-id sh ~/.local/bin/.scripts/Startup.sh
