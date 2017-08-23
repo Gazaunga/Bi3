@@ -250,6 +250,6 @@ for_window [title="NOBORDER"] border none
 new_window pixel
 hide_edge_borders both
 
-assign [class="Opera"] $workspace2
-assign [class="qutebrowser"] $workspace1
+assign [class="Opera"] $s2
+assign [class="qutebrowser"] $ws1
 
